@@ -19,9 +19,9 @@ To use in your application:
 Create a wrapper and you get a Mechanize instance wrapped to use Tor and
 which is able to use another endpoint when gets HTTP 4xx
 
-    agent ||= TorPrivoxy::Agent.new '127.0.0.1', '', {8123 => 9051} do
+    agent ||= TorPrivoxy::Agent.new '127.0.0.1', '', {8123 => 9051} do |agent|
       sleep 10
-      puts "New IP is #{ip}"
+      puts "New IP is #{agent.ip}"
       get ""
     end
 
