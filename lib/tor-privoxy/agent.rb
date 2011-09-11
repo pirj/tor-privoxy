@@ -8,6 +8,7 @@ module TorPrivoxy
       @mechanize = Mechanize.new
       @mechanize.set_proxy(@proxy.host, @proxy.port)
       @callback = callback
+      @callback.call
     end
     
     def method_missing method, *args, &block
@@ -20,14 +21,13 @@ module TorPrivoxy
     end
 
     def switch_circuit
-      @proxy.next
-
       localhost = Net::Telnet::new('Host' => @proxy.host, 'Port' => @proxy.control_port,
                                  'Timeout' => 2, 'Prompt' => /250 OK\n/)
       localhost.cmd("AUTHENTICATE \"#{@proxy.pass}\"")
       localhost.cmd('signal NEWNYM')
       localhost.close
 
+      @proxy.next
       @mechanize = Mechanize.new
       @mechanize.set_proxy(@proxy.host, @proxy.port)
 
