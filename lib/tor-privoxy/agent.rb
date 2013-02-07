@@ -22,9 +22,9 @@ module TorPrivoxy
 
     def switch_circuit
       localhost = Net::Telnet::new('Host' => @proxy.host, 'Port' => @proxy.control_port,
-                                 'Timeout' => 2, 'Prompt' => /250 OK\n/)
-      localhost.cmd("AUTHENTICATE \"#{@proxy.pass}\"")
-      localhost.cmd('signal NEWNYM')
+                                 'Timeout' => 10, 'Prompt' => /250 OK\n/)
+      localhost.cmd("AUTHENTICATE \"#{@proxy.pass}\"") { |c| throw "cannot authenticate to Tor!" if c != "250 OK\n" }
+      localhost.cmd('signal NEWNYM') { |c| throw "cannot switch Tor to new route!" if c != "250 OK\n" }
       localhost.close
 
       @proxy.next
@@ -36,6 +36,9 @@ module TorPrivoxy
 
     def ip
       @mechanize.get('http://ifconfig.me/ip').body
+    rescue Exception => ex
+      puts "error getting ip: #{ex.to_s}"
+      return ""
     end
   end
 end
