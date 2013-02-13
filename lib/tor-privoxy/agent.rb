@@ -7,7 +7,7 @@ module TorPrivoxy
       @proxy = Switcher.new host, pass, control
       @mechanize = Mechanize.new
       @mechanize.set_proxy(@proxy.host, @proxy.port)
-      @circuit_timeout = 2
+      @circuit_timeout = 10
       @callback = callback
       @callback.call self
     end
