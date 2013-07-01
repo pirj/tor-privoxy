@@ -22,8 +22,11 @@ which is able to use another endpoint when gets HTTP 4xx
     agent ||= TorPrivoxy::Agent.new '127.0.0.1', '', {8123 => 9051} do |agent|
       sleep 10
       puts "New IP is #{agent.ip}"
-      get ""
     end
+    
+And use the agent as a ususal Mechanize agent instance:
+    
+    agent.get "http://example.com"
 
 ### Configuration options
 
