@@ -8,8 +8,10 @@ module TorPrivoxy
       @mechanize = Mechanize.new
       @mechanize.set_proxy(@proxy.host, @proxy.port)
       @circuit_timeout = 10
-      @callback = callback
-      @callback.call self
+      if callback
+        @callback = callback
+        @callback.call self
+      end
     end
 
     def method_missing method, *args, &block
@@ -32,7 +34,9 @@ module TorPrivoxy
       @mechanize = Mechanize.new
       @mechanize.set_proxy(@proxy.host, @proxy.port)
 
-      @callback.call self
+      if callback
+        @callback.call self
+      end
     end
 
     def ip
