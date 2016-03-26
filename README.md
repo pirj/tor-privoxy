@@ -1,4 +1,4 @@
-# Tor/Privoxy wrapped Mechanize
+# Tor/privoxy wrapped Mechanize
 
 tor-privoxy is a Ruby Mechanize wrapper for accessing the web via Tor/Privoxy.
 It allows multiple Privoxy instances, switching endpoints, and switching the
@@ -18,13 +18,13 @@ To use in your application:
 
 To get a Mechanize instance wrapped to use Tor and able to use another endpoint when it encounters an HTTP 4xx code:
 
-    agent ||= TorPrivoxy::Agent.new '127.0.0.1', '', {8123 => 9051} do |agent|
-      sleep 10
+    agent ||= TorPrivoxy::Agent.new '127.0.0.1', '', {8118 => 9051} do |agent|
+      sleep 1
       puts "New IP is #{agent.ip}"
     end
-    
+
 And use the agent as a usual Mechanize agent instance:
-    
+
     agent.get "http://example.com"
 
 ### Configuration options
