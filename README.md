@@ -18,10 +18,20 @@ To use in your application:
 
 To get a Mechanize instance wrapped to use Tor and able to use another endpoint when it encounters an HTTP 4xx code:
 
-    agent ||= TorPrivoxy::Agent.new '127.0.0.1', '', {8118 => 9051} do |agent|
+    agent = TorPrivoxy::Agent.new '127.0.0.1', '', {8118 => 9051} do |agent|
       sleep 1
       puts "New IP is #{agent.ip}"
     end
+
+Passing block is optional:
+
+    agent = TorPrivoxy::Agent.new '127.0.0.1', '', 8118 => 9051
+
+First parameter is a proxy host, second is Tor control port password:
+
+    agent = TorPrivoxy::Agent.new '127.0.0.1', '', 8118 => 9051
+
+The hash is in format proxyport => torcontrolport. Yes, you may provide as many as you want, but I don't have an idea why I initially did it like so.
 
 And use the agent as a usual Mechanize agent instance:
 
