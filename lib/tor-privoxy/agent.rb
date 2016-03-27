@@ -41,8 +41,8 @@ module TorPrivoxy
 
     def ip
       @mechanize.get('http://ifconfig.me/ip').body
-    rescue Exception => ex
-      puts "error getting ip: #{ex.to_s}"
+    rescue exception
+      puts "error getting ip: #{exception.to_s}"
       return ""
     end
   end
