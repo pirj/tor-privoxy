@@ -15,5 +15,6 @@ Gem::Specification.new do |gem|
     ]
 
   gem.add_dependency 'mechanize'
+  gem.add_dependency 'net-telnet'
 end
 
