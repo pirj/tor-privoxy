@@ -34,13 +34,13 @@ module TorPrivoxy
       @mechanize = Mechanize.new
       @mechanize.set_proxy(@proxy.host, @proxy.port)
 
-      if callback
+      if @callback
         @callback.call self
       end
     end
 
     def ip
-      @mechanize.get('http://ifconfig.me/ip').body
+      @mechanize.get('http://canihazip.com/s').body
     rescue exception
       puts "error getting ip: #{exception.to_s}"
       return ""
