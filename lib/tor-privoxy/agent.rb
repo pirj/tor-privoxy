@@ -3,8 +3,11 @@ require 'mechanize'
 
 module TorPrivoxy
   class Agent
+    attr_accessor :max_retries
+
     def initialize host, pass, control, &callback
       @proxy = Switcher.new host, pass, control
+      @max_retries = control.size
       @mechanize = Mechanize.new
       @mechanize.set_proxy(@proxy.host, @proxy.port)
       @circuit_timeout = 10
@@ -15,12 +18,13 @@ module TorPrivoxy
     end
 
     def method_missing method, *args, &block
-      begin
-        @mechanize.send method, *args, &block
-      rescue Mechanize::ResponseCodeError # 403 etc
-        switch_circuit
-        retry
-      end
+      retries ||= @max_retries
+      @mechanize.send method, *args, &block
+    rescue Mechanize::ResponseCodeError # 403 etc
+      switch_circuit
+      retries -= 1
+      retry if retries > 0
+      raise
     end
 
     def switch_circuit
